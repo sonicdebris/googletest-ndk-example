@@ -20,12 +20,13 @@ target_link_libraries(footest gtest native-lib)
 
 # run tests:
 
-#find_program(ADB adb PATHS "/home/android/sdk/platform-tools")
-set(ADB /home/android/sdk/platform-tools/adb)
+find_program(ADB adb PATHS "/home/android/sdk/platform-tools")
+#set(ADB /home/android/sdk/platform-tools/adb)
 add_custom_command(TARGET footest POST_BUILD
     COMMAND ${ADB} shell mkdir -p /data/local/tmp/${ANDROID_ABI}
     COMMAND ${ADB} push $<TARGET_FILE:native-lib> /data/local/tmp/${ANDROID_ABI}/
     COMMAND ${ADB} push $<TARGET_FILE:footest> /data/local/tmp/${ANDROID_ABI}/
-    COMMAND ${ADB} shell chmod 775 /data/local/tmp/${ANDROID_ABI}/footest
-    COMMAND ${ADB} shell \"export LD_LIBRARY_PATH=/data/local/tmp/${ANDROID_ABI}\; /data/local/tmp/${ANDROID_ABI}/footest\")
+    COMMAND ${ADB} shell chmod 775 /data/local/tmp/${ANDROID_ABI}/footest)
+#    COMMAND ${ADB} shell \"export LD_LIBRARY_PATH=/data/local/tmp/${ANDROID_ABI}\; /data/local/tmp/${ANDROID_ABI}/footest\")
 
+# TODO: need a step to clean the test executables
